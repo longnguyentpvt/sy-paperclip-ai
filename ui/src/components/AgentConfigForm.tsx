@@ -17,6 +17,7 @@ import {
 } from "@paperclipai/adapter-codex-local";
 import { DEFAULT_CURSOR_LOCAL_MODEL } from "@paperclipai/adapter-cursor-local";
 import { DEFAULT_GEMINI_LOCAL_MODEL } from "@paperclipai/adapter-gemini-local";
+import { DEFAULT_COPILOT_SDK_MODEL } from "@paperclipai/adapter-copilot-sdk";
 import {
   Popover,
   PopoverContent,
@@ -285,7 +286,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
     adapterType === "codex_local" ||
     adapterType === "gemini_local" ||
     adapterType === "opencode_local" ||
-    adapterType === "cursor";
+    adapterType === "cursor" ||
+    adapterType === "copilot_sdk";
   const uiAdapter = useMemo(() => getUIAdapter(adapterType), [adapterType]);
 
   // Fetch adapter models for the effective adapter type
@@ -357,7 +359,9 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         ? "mode"
         : adapterType === "opencode_local"
           ? "variant"
-          : "effort";
+          : adapterType === "copilot_sdk"
+            ? "reasoningEffort"
+            : "effort";
   const thinkingEffortOptions =
     adapterType === "codex_local"
       ? codexThinkingEffortOptions
@@ -378,6 +382,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         ? eff("adapterConfig", "mode", String(config.mode ?? ""))
       : adapterType === "opencode_local"
         ? eff("adapterConfig", "variant", String(config.variant ?? ""))
+      : adapterType === "copilot_sdk"
+        ? eff("adapterConfig", "reasoningEffort", String(config.reasoningEffort ?? ""))
       : eff("adapterConfig", "effort", String(config.effort ?? ""));
   const showThinkingEffort = adapterType !== "gemini_local";
   const codexSearchEnabled = adapterType === "codex_local"
@@ -499,6 +505,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                       DEFAULT_CODEX_LOCAL_BYPASS_APPROVALS_AND_SANDBOX;
                   } else if (t === "gemini_local") {
                     nextValues.model = DEFAULT_GEMINI_LOCAL_MODEL;
+                  } else if (t === "copilot_sdk") {
+                    nextValues.model = DEFAULT_COPILOT_SDK_MODEL;
                   } else if (t === "cursor") {
                     nextValues.model = DEFAULT_CURSOR_LOCAL_MODEL;
                   } else if (t === "opencode_local") {
@@ -517,6 +525,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                           ? DEFAULT_CODEX_LOCAL_MODEL
                           : t === "gemini_local"
                             ? DEFAULT_GEMINI_LOCAL_MODEL
+                          : t === "copilot_sdk"
+                            ? DEFAULT_COPILOT_SDK_MODEL
                           : t === "cursor"
                             ? DEFAULT_CURSOR_LOCAL_MODEL
                           : "",
@@ -624,6 +634,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                       ? "codex"
                       : adapterType === "gemini_local"
                         ? "gemini"
+                      : adapterType === "copilot_sdk"
+                        ? "copilot"
                       : adapterType === "cursor"
                         ? "agent"
                         : adapterType === "opencode_local"
@@ -776,6 +788,42 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                   </Field>
                 </>
               )}
+
+              {/* Subscription plan cost estimation — copilot_sdk only */}
+              {adapterType === "copilot_sdk" && (
+                <>
+                  <Field
+                    label="Subscription monthly cost (USD)"
+                    hint="Your Copilot plan's monthly cost in USD (e.g. 35). Used to estimate run costs from premium-request consumption."
+                  >
+                    <DraftNumberInput
+                      value={eff(
+                        "adapterConfig",
+                        "subscriptionMonthlyCostUsd",
+                        Number(config.subscriptionMonthlyCostUsd ?? 0),
+                      )}
+                      onCommit={(v) => mark("adapterConfig", "subscriptionMonthlyCostUsd", v || undefined)}
+                      immediate
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field
+                    label="Subscription included requests"
+                    hint="Total premium requests included in your plan per month (e.g. 1500). Combined with the monthly cost, each run's cost is estimated as: requests_consumed ÷ included × monthly_cost."
+                  >
+                    <DraftNumberInput
+                      value={eff(
+                        "adapterConfig",
+                        "subscriptionIncludedRequests",
+                        Number(config.subscriptionIncludedRequests ?? 0),
+                      )}
+                      onCommit={(v) => mark("adapterConfig", "subscriptionIncludedRequests", v || undefined)}
+                      immediate
+                      className={inputClass}
+                    />
+                  </Field>
+                </>
+              )}
           </div>
         </div>
       )}
@@ -911,7 +959,7 @@ function AdapterEnvironmentResult({ result }: { result: AdapterEnvironmentTestRe
 
 /* ---- Internal sub-components ---- */
 
-const ENABLED_ADAPTER_TYPES = new Set(["claude_local", "codex_local", "gemini_local", "opencode_local", "cursor"]);
+const ENABLED_ADAPTER_TYPES = new Set(["claude_local", "codex_local", "gemini_local", "opencode_local", "cursor", "copilot_sdk"]);
 
 /** Display list includes all real adapter types plus UI-only coming-soon entries. */
 const ADAPTER_DISPLAY_LIST: { value: string; label: string; comingSoon: boolean }[] = [

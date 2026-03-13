@@ -3,9 +3,10 @@ import { readdirSync } from "fs";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
 
-// @github/copilot-sdk imports `vscode-jsonrpc/node` without .js extension,
-// which fails under strict ESM. Alias it to the resolved .js file.
-const ROOT = fileURLToPath(new URL("..", import.meta.url));
+// @github/copilot-sdk (imported by server/index.ts) imports `vscode-jsonrpc/node`
+// without the .js extension, which fails under strict ESM. Apply the same fix
+// used in the server package vitest config.
+const ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 const pnpmStore = resolve(ROOT, "node_modules/.pnpm");
 const vsJsonRpcDir = readdirSync(pnpmStore).find((d) =>
   d.startsWith("vscode-jsonrpc@")
@@ -22,8 +23,6 @@ export default defineConfig({
     environment: "node",
     server: {
       deps: {
-        // Inline copilot-sdk so Vite's resolver handles its imports (fixes
-        // `vscode-jsonrpc/node` extension-less ESM import)
         inline: [/@github\/copilot-sdk/, /vscode-jsonrpc/],
       },
     },

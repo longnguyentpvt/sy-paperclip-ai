@@ -38,6 +38,9 @@ importers:
       '@paperclipai/adapter-codex-local':
         specifier: workspace:*
         version: link:../packages/adapters/codex-local
+      '@paperclipai/adapter-copilot-sdk':
+        specifier: workspace:*
+        version: link:../packages/adapters/copilot-sdk
       '@paperclipai/adapter-cursor-local':
         specifier: workspace:*
         version: link:../packages/adapters/cursor-local
@@ -131,6 +134,31 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+
+  packages/adapters/copilot-sdk:
+    dependencies:
+      '@github/copilot-sdk':
+        specifier: ^0.1.32
+        version: 0.1.32
+      '@paperclipai/adapter-utils':
+        specifier: workspace:*
+        version: link:../../adapter-utils
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@types/node':
+        specifier: ^24.6.0
+        version: 24.12.0
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.5
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)
 
   packages/adapters/cursor-local:
     dependencies:
@@ -267,6 +295,9 @@ importers:
       '@paperclipai/adapter-codex-local':
         specifier: workspace:*
         version: link:../packages/adapters/codex-local
+      '@paperclipai/adapter-copilot-sdk':
+        specifier: workspace:*
+        version: link:../packages/adapters/copilot-sdk
       '@paperclipai/adapter-cursor-local':
         specifier: workspace:*
         version: link:../packages/adapters/cursor-local
@@ -388,6 +419,9 @@ importers:
       '@paperclipai/adapter-codex-local':
         specifier: workspace:*
         version: link:../packages/adapters/codex-local
+      '@paperclipai/adapter-copilot-sdk':
+        specifier: workspace:*
+        version: link:../packages/adapters/copilot-sdk
       '@paperclipai/adapter-cursor-local':
         specifier: workspace:*
         version: link:../packages/adapters/cursor-local
@@ -1498,6 +1532,50 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@github/copilot-darwin-arm64@1.0.4':
+    resolution: {integrity: sha512-/YGGhv6cp0ItolsF0HsLq2KmesA4atn0IEYApBs770fzJ8OP2pkOEzrxo3gWU3wc7fHF2uDB1RrJEZ7QSFLdEQ==}
+    cpu: [arm64]
+    os: [darwin]
+    hasBin: true
+
+  '@github/copilot-darwin-x64@1.0.4':
+    resolution: {integrity: sha512-gwn2QjZbc1SqPVSAtDMesU1NopyHZT8Qsn37xPfznpV9s94KVyX4TTiDZaUwfnI0wr8kVHBL46RPLNz6I8kR9A==}
+    cpu: [x64]
+    os: [darwin]
+    hasBin: true
+
+  '@github/copilot-linux-arm64@1.0.4':
+    resolution: {integrity: sha512-92vzHKxN55BpI76sP/5fXIXfat1gzAhsq4bNLqLENGfZyMP/25OiVihCZuQHnvxzXaHBITFGUvtxfdll2kbcng==}
+    cpu: [arm64]
+    os: [linux]
+    hasBin: true
+
+  '@github/copilot-linux-x64@1.0.4':
+    resolution: {integrity: sha512-wQvpwf4/VMTnSmWyYzq07Xg18Vxg7aZ5NVkkXqlLTuXRASW0kvCCb5USEtXHHzR7E6rJztkhCjFRE1bZW8jAGw==}
+    cpu: [x64]
+    os: [linux]
+    hasBin: true
+
+  '@github/copilot-sdk@0.1.32':
+    resolution: {integrity: sha512-mPWM0fw1Gqc/SW8nl45K8abrFH+92fO7y6tRtRl5imjS5hGapLf/dkX5WDrgPtlsflD0c41lFXVUri5NVJwtoA==}
+    engines: {node: '>=20.0.0'}
+
+  '@github/copilot-win32-arm64@1.0.4':
+    resolution: {integrity: sha512-zOvD/5GVxDf0ZdlTkK+m55Vs55xuHNmACX50ZO2N23ZGG2dmkdS4mkruL59XB5ISgrOfeqvnqrwTFHbmPZtLfw==}
+    cpu: [arm64]
+    os: [win32]
+    hasBin: true
+
+  '@github/copilot-win32-x64@1.0.4':
+    resolution: {integrity: sha512-yQenHMdkV0b77mF6aLM60TuwtNZ592TluptVDF+80Sj2zPfCpLyvrRh2FCIHRtuwTy4BfxETh2hCFHef8E6IOw==}
+    cpu: [x64]
+    os: [win32]
+    hasBin: true
+
+  '@github/copilot@1.0.4':
+    resolution: {integrity: sha512-IpPg+zYplLu4F4lmatEDdR/1Y/jJ9cGWt89m3K3H4YSfYrZ5Go4UlM28llulYCG7sVdQeIGauQN1/KiBI/Rocg==}
+    hasBin: true
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5559,6 +5637,10 @@ packages:
     resolution: {integrity: sha512-C+r0eKJUIfiDIfwJhria30+TYWPtuHJXHtI7J0YlOmKAo7ogxP20T0zxB7HZQIFhIyvoBPwWskjxrvAtfjyZfA==}
     engines: {node: '>=14.0.0'}
 
+  vscode-jsonrpc@8.2.1:
+    resolution: {integrity: sha512-kdjOSJ2lLIn7r1rtrMbbNCHjyMPfRnowdKjBQ+mGq6NAW5QY2bEZC/khaC5OR8svbbjvLEaIXkOq45e2X9BIbQ==}
+    engines: {node: '>=14.0.0'}
+
   vscode-languageserver-protocol@3.17.5:
     resolution: {integrity: sha512-mb1bvRJN8SVznADSGWM9u/b07H7Ecg0I3OgXDuLdn307rl/J3A9YD6/eYOssqhecL27hK1IPZAsaqh00i/Jljg==}
 
@@ -7041,6 +7123,39 @@ snapshots:
       tabbable: 6.4.0
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@github/copilot-darwin-arm64@1.0.4':
+    optional: true
+
+  '@github/copilot-darwin-x64@1.0.4':
+    optional: true
+
+  '@github/copilot-linux-arm64@1.0.4':
+    optional: true
+
+  '@github/copilot-linux-x64@1.0.4':
+    optional: true
+
+  '@github/copilot-sdk@0.1.32':
+    dependencies:
+      '@github/copilot': 1.0.4
+      vscode-jsonrpc: 8.2.1
+      zod: 4.3.6
+
+  '@github/copilot-win32-arm64@1.0.4':
+    optional: true
+
+  '@github/copilot-win32-x64@1.0.4':
+    optional: true
+
+  '@github/copilot@1.0.4':
+    optionalDependencies:
+      '@github/copilot-darwin-arm64': 1.0.4
+      '@github/copilot-darwin-x64': 1.0.4
+      '@github/copilot-linux-arm64': 1.0.4
+      '@github/copilot-linux-x64': 1.0.4
+      '@github/copilot-win32-arm64': 1.0.4
+      '@github/copilot-win32-x64': 1.0.4
 
   '@iconify/types@2.0.0': {}
 
@@ -11865,6 +11980,8 @@ snapshots:
       - yaml
 
   vscode-jsonrpc@8.2.0: {}
+
+  vscode-jsonrpc@8.2.1: {}
 
   vscode-languageserver-protocol@3.17.5:
     dependencies:

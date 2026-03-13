@@ -51,6 +51,15 @@ import {
 import {
   agentConfigurationDoc as piAgentConfigurationDoc,
 } from "@paperclipai/adapter-pi-local";
+import {
+  execute as copilotSdkExecute,
+  testEnvironment as copilotSdkTestEnvironment,
+  sessionCodec as copilotSdkSessionCodec,
+} from "@paperclipai/adapter-copilot-sdk/server";
+import {
+  agentConfigurationDoc as copilotSdkAgentConfigurationDoc,
+  models as copilotSdkModels,
+} from "@paperclipai/adapter-copilot-sdk";
 import { processAdapter } from "./process/index.js";
 import { httpAdapter } from "./http/index.js";
 
@@ -127,6 +136,16 @@ const piLocalAdapter: ServerAdapterModule = {
   agentConfigurationDoc: piAgentConfigurationDoc,
 };
 
+const copilotSdkAdapter: ServerAdapterModule = {
+  type: "copilot_sdk",
+  execute: copilotSdkExecute,
+  testEnvironment: copilotSdkTestEnvironment,
+  sessionCodec: copilotSdkSessionCodec,
+  models: copilotSdkModels,
+  supportsLocalAgentJwt: true,
+  agentConfigurationDoc: copilotSdkAgentConfigurationDoc,
+};
+
 const adaptersByType = new Map<string, ServerAdapterModule>(
   [
     claudeLocalAdapter,
@@ -136,6 +155,7 @@ const adaptersByType = new Map<string, ServerAdapterModule>(
     cursorLocalAdapter,
     geminiLocalAdapter,
     openclawGatewayAdapter,
+    copilotSdkAdapter,
     processAdapter,
     httpAdapter,
   ].map((a) => [a.type, a]),
